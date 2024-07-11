@@ -1,7 +1,17 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+import models
+from database import SessionLocal, engine
+
+from user_controller import user_router_v1
+models.Base.metadata.create_all(bind=engine)
+
 app = FastAPI()
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -11,15 +21,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(user_router_v1)
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-@app.get("/items/{item_id}")
-async def read_item(item_id: int):
-    return {"item_id": item_id}
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app)
