@@ -4,17 +4,17 @@ from sqlalchemy import Column, Integer, String, DateTime, Enum
 from database import Base
 
 class Sex(enum.Enum):
-    male = "MALE"
-    female = "FEMALE"
-    other = "OTHER"
+    MALE = "MALE"
+    FEMALE = "FEMALE"
+    OTHER = "OTHER"
 
 class User(Base):
     __tablename__ = 'Users'
 
     sid = Column(Integer, primary_key=True, index=True)
-    first_name = Column(String)
-    last_name = Column(String)
-    dob = Column(DateTime(timezone=True))
-    sex = Column(Enum(Sex))
-    bio = Column(String)
+    first_name = Column(String, nullable=False)
+    last_name = Column(String, nullable=True)
+    dob = Column(DateTime(timezone=True), nullable=False)
+    sex = Column(Enum(Sex), nullable=True)
+    bio = Column(String, nullable=True)
 
