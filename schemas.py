@@ -7,7 +7,7 @@ class User(BaseModel):
     first_name: str
     last_name: str | None = None
     dob: datetime
-    sex: Literal["MALE"] | Literal["FEMALE"] | Literal["OTHER"]
+    gender: Literal["MALE"] | Literal["FEMALE"] | Literal["OTHER"]
     bio: str | None = None
 
 class UserUpdate(BaseModel):
@@ -15,5 +15,5 @@ class UserUpdate(BaseModel):
     first_name: str | None = None
     last_name: str | None = None
     dob: datetime | None = None
-    sex: Literal["MALE"] | Literal["FEMALE"] | Literal["OTHER"] | None = None
+    gender: Literal["MALE"] | Literal["FEMALE"] | Literal["OTHER"] | None = None
     bio: str | None = None

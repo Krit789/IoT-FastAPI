@@ -39,14 +39,27 @@ async def create_user(user: User, response: Response, db: Session = Depends(get_
         if db.query(models.User).filter(models.User.sid == user.sid).first() is not None:
             response.status_code = 400
             return { "message" : "Unable to create user. User SID already exist."}
-        user = models.User(sid=user.sid, first_name=user.first_name, last_name=user.last_name, dob=user.dob, sex=user.sex, bio=user.bio)
+        user = models.User(sid=user.sid, first_name=user.first_name, last_name=user.last_name, dob=user.dob, gender=user.gender, bio=user.bio)
         db.add(user)
         db.commit()
         return { "message" : "User created successfully"}
     except Exception as e:
         response.status_code = 500
         return { "message" : "Unable to create user. Please try again later."}
-    
+
+@user_router_v1.put('/bulk')
+async def bulk_create_user(users: list[User], response: Response, db: Session = Depends(get_db)):
+    """Create a new user."""
+    # try:
+    for user in users:
+        user = models.User(sid=user.sid, first_name=user.first_name, last_name=user.last_name, dob=user.dob, gender=user.gender, bio=user.bio)
+        db.add(user)
+    db.commit()
+    return { "message" : "Bulk Import Success" }
+    # except Exception as e:
+    #     response.status_code = 500
+    #     return { "message" : "Unable to create user. Please try again later."}
+
 @user_router_v1.patch('/{s_id}')
 async def update_user(s_id: str, user: UserUpdate, db: Session = Depends(get_db)) -> Dict:
     """Update a user."""

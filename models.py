@@ -15,6 +15,6 @@ class User(Base):
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=True)
     dob = Column(DateTime(timezone=True), nullable=False)
-    sex = Column(Enum(Sex), nullable=True)
+    gender = Column(Enum(Sex), nullable=False)
     bio = Column(String, nullable=True)
 
