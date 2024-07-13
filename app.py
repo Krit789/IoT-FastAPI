@@ -30,6 +30,9 @@ app.mount("/assets", StaticFiles(directory="static/assets"), name="static")
 async def serveHTML():
     return FileResponse('static/index.html')
 
+@app.get("/vite.svg")
+async def serveVite():
+    return FileResponse('static/vite.svg')
 
 if __name__ == '__main__':
     import uvicorn
