@@ -15,7 +15,7 @@ user_router_v1 = APIRouter(prefix='/api/v1/users')
 async def get_user(db: Session = Depends(get_db)):
     """Get all users."""
     try:
-        return db.query(models.User).all()
+        return db.query(models.User).order_by(models.User.sid).all()
     except:
         return { "message" : "Unable to retrieve users. Please try again later."}
 
@@ -76,7 +76,7 @@ async def update_user(s_id: str, user: UserUpdate, db: Session = Depends(get_db)
     return {"message": "User updated successfully"}
 
 
-@user_router_v1.patch('/{s_id}')
+@user_router_v1.delete('/{s_id}')
 async def delete_user(s_id: str, db: Session = Depends(get_db)) -> Dict:
     """Update a user."""
     db_user = db.query(models.User).filter(models.User.sid == s_id).first()
